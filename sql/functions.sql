@@ -1124,6 +1124,23 @@ BEGIN
       END IF;
       NEW.rank_search := NEW.admin_level * 2;
       NEW.rank_address := NEW.rank_search;
+      -- RAISE WARNING 'COUNTRY CODE %', NEW.calculated_country_code;
+      IF NEW.calculated_country_code = 'pl' THEN
+        CASE NEW.admin_level
+          WHEN 10 THEN -- village
+            -- RAISE WARNING 'VILLAGE CODE % %', NEW.calculated_country_code, NEW.name;
+            NEW.rank_search := 19;
+            NEW.rank_address := 16;
+          WHEN 9 THEN -- suburb
+            -- RAISE WARNING 'SUBURB CODE % %', NEW.calculated_country_code, NEW.name;
+            NEW.rank_search := 20;
+            NEW.rank_address := NEW.rank_search;
+          ELSE
+            NEW.rank_search := NEW.admin_level * 2;
+            NEW.rank_address := NEW.rank_search;
+          END CASE;
+      END IF;
+
     ELSEIF NEW.class = 'landuse' AND ST_GeometryType(NEW.geometry) in ('ST_Polygon','ST_MultiPolygon') THEN
       NEW.rank_search := 22;
       NEW.rank_address := NEW.rank_search;

@@ -1465,6 +1465,13 @@
 					$aResult['rank_search'] = 16;
 				}
 
+				if ($aResult['extra_place'] == 'village')
+				{
+					$aResult['class'] = 'place';
+					$aResult['type'] = 'village';
+					$aResult['rank_search'] = 16;
+				}
+
 				if (!isset($aResult['aBoundingBox']))
 				{
 					// Default
